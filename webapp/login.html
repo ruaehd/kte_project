@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>로그인</title>
+	<link rel="stylesheet" href="css/materialize.css" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+	<nav>
+		<div class="nav-wrapper">
+			<a href="#" class="brand-logo">WEB-APP</a>
+			<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+			<ul class="right hide-on-med-and-down">
+				<li><a href="#">메뉴1</a></li>
+			</ul>
+			<ul class="side-nav" id="mobile-demo">
+				<li><a href="#">mobile1</a></li>
+			</ul>
+		</div>
+	</nav>
+	<form id="form">
+		<div style="margin-top:30px; padding:10px 50px">
+			<div class="input-filed">
+				<label for="id">아이디</label>
+				<input type="text" id="id" name="id" class="validate" placeholder="아이디"/>
+			</div>
+			<div class="input-filed">
+				<label for="pw">암호</label>
+				<input type="password" id="pw" name="pw" class="validate" placeholder="암호"/>
+			</div>
+			<input type="submit" class="btn" id="btn_login" value="로그인"/>
+		</div>
+	</form>
+	
+	<script type="text/javascript" src="js/jquery-1.11.1.js"></script>
+	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="js/additional-methods.min.js"></script>
+	<script type="text/javascript" src="js/localization/messages_ko.min.js"></script>
+	<script type="text/javascript" src="js/materialize.min.js"></script>
+	
+	<script>
+		$(function(){
+
+			$('.button-collapse').sideNav();
+		
+			$('#form').validate({
+				submitHandler:function(){
+					var id = $('#id').val();
+					var pw = $('#pw').val();
+					
+					$.post('http://127.0.0.1/mvc/json_login.do',
+							{"id":id,"pw":pw,"key":"123"}, function(data){
+								if(data.ret == 'y'){
+									alert('로그인 되었습니다.');
+									window.location.href="main.html";
+								}
+						
+					}, 'json');
+				},			
+				rules:{
+					id:{
+						required : true
+					},
+					pw:{
+						required : true
+					},
+				},
+				messages:{
+					id:{
+						required : "아이디가 비었습니다"
+					},
+					pw:{
+						required : "암호가 비었습니다"
+					}
+				}
+			});
+		});
+	</script>	
+
+</body>
+</html>
